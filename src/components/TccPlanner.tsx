@@ -12,9 +12,15 @@ export const TccPlanner = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full">
       {!plan ? (
-        <InitialForm onCreatePlan={handlePlanCreation} />
+        <div className="py-10 relative">
+          {/* Background elements */}
+          <div className="absolute top-20 left-10 w-64 h-64 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-30 -z-10"></div>
+          <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-100 dark:bg-purple-900/20 rounded-full blur-3xl opacity-30 -z-10"></div>
+          
+          <InitialForm onCreatePlan={handlePlanCreation} />
+        </div>
       ) : (
         <PlannerDashboard plan={plan} />
       )}
