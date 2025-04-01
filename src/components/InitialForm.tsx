@@ -7,6 +7,10 @@ import { Label } from "@/components/ui/label";
 import { TCCPlan } from "@/types/tcc";
 import { generatePlan } from "@/utils/planGenerator";
 import { Loader2, Calendar, Clock, BookOpen, ArrowRight } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface InitialFormProps {
   onCreatePlan: (plan: TCCPlan) => void;
@@ -14,22 +18,32 @@ interface InitialFormProps {
 
 export const InitialForm = ({ onCreatePlan }: InitialFormProps) => {
   const [title, setTitle] = useState("");
-  const [dueDate, setDueDate] = useState("");
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [hoursPerWeek, setHoursPerWeek] = useState(10);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !dueDate) return;
+    if (!title || !date) return;
 
     setIsGenerating(true);
     
     // Simula um tempo de processamento para gerar o plano
     setTimeout(() => {
-      const plan = generatePlan(title, new Date(dueDate), hoursPerWeek);
+      const plan = generatePlan(title, date, hoursPerWeek);
       onCreatePlan(plan);
       setIsGenerating(false);
     }, 1500);
+  };
+
+  // Function to handle date input manually
+  const handleDateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputDate = e.target.value;
+    if (inputDate) {
+      setDate(new Date(inputDate));
+    } else {
+      setDate(undefined);
+    }
   };
 
   return (
@@ -81,14 +95,39 @@ export const InitialForm = ({ onCreatePlan }: InitialFormProps) => {
                 <Calendar className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
                 Data de Entrega
               </Label>
-              <Input
-                id="dueDate"
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                required
-                className="border-indigo-100 dark:border-indigo-800/50 focus-visible:ring-indigo-500 transition-all"
-              />
+              
+              <div className="flex gap-2">
+                <Input
+                  id="dueDate"
+                  type="date"
+                  value={date ? format(date, 'yyyy-MM-dd') : ''}
+                  onChange={handleDateInput}
+                  className="flex-1 border-indigo-100 dark:border-indigo-800/50 focus-visible:ring-indigo-500 transition-all"
+                />
+                
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      className={cn(
+                        "w-10 p-0 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/20 dark:hover:bg-indigo-800/40 border-indigo-100 dark:border-indigo-800/50"
+                      )}
+                    >
+                      <Calendar className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="end">
+                    <CalendarComponent
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                      className="p-3 pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              
               <p className="text-xs text-gray-500 dark:text-gray-400 pl-2">
                 A data final para entregar seu trabalho completo
               </p>
@@ -131,7 +170,7 @@ export const InitialForm = ({ onCreatePlan }: InitialFormProps) => {
           <Button 
             onClick={handleSubmit} 
             className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all py-6 text-lg font-medium rounded-lg shadow-md hover:shadow-lg disabled:opacity-70"
-            disabled={isGenerating || !title || !dueDate}
+            disabled={isGenerating || !title || !date}
           >
             {isGenerating ? (
               <>
