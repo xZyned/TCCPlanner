@@ -51,52 +51,49 @@ export const StagesList = ({ stages }: StagesListProps) => {
         return (
           <Card key={stage.id} className={`transition-all duration-200 ${completedCount === taskCount ? 'border-green-300 bg-green-50 dark:bg-green-900/20' : ''}`}>
             <CardHeader className="pb-2">
-              <CollapsibleTrigger 
-                onClick={() => toggleStage(stage.id)} 
-                className="w-full flex justify-between items-center text-left"
-              >
-                <CardTitle className="text-lg flex items-center gap-2">
-                  {completedCount === taskCount && (
-                    <Check className="h-5 w-5 text-green-500" />
-                  )}
-                  {stage.name}
-                </CardTitle>
-                {isOpen ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
-              </CollapsibleTrigger>
-            </CardHeader>
-            
-            <CardContent className="pb-4">
-              <div className="mb-2 flex justify-between text-sm text-gray-500">
-                <span>{formatDate(stage.startDate)} - {formatDate(stage.endDate)}</span>
-                <span>{Math.round(progress)}% completo</span>
-              </div>
-              <Progress value={progress} className="h-2" />
+              <Collapsible open={isOpen} onOpenChange={() => toggleStage(stage.id)}>
+                <CollapsibleTrigger className="w-full flex justify-between items-center text-left">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    {completedCount === taskCount && (
+                      <Check className="h-5 w-5 text-green-500" />
+                    )}
+                    {stage.name}
+                  </CardTitle>
+                  {isOpen ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+                </CollapsibleTrigger>
               
-              <Collapsible open={isOpen}>
-                <CollapsibleContent className="mt-4 space-y-3">
-                  {stage.tasks.map((task) => (
-                    <div key={task.id} className="flex items-start gap-3 p-3 border rounded-md">
-                      <Checkbox 
-                        id={`task-${task.id}`} 
-                        checked={completedTasks.includes(task.id)}
-                        onCheckedChange={() => toggleTask(task.id)}
-                        className="mt-1"
-                      />
-                      <div>
-                        <label 
-                          htmlFor={`task-${task.id}`} 
-                          className={`font-medium cursor-pointer ${completedTasks.includes(task.id) ? 'line-through text-gray-500' : ''}`}
-                        >
-                          {task.name}
-                        </label>
-                        <p className="text-sm text-gray-500 mt-1">{task.description}</p>
-                        <p className="text-xs text-gray-400 mt-1">Tempo estimado: {task.estimatedHours}h</p>
+                <CardContent className="pb-4">
+                  <div className="mb-2 flex justify-between text-sm text-gray-500">
+                    <span>{formatDate(stage.startDate)} - {formatDate(stage.endDate)}</span>
+                    <span>{Math.round(progress)}% completo</span>
+                  </div>
+                  <Progress value={progress} className="h-2" />
+                  
+                  <CollapsibleContent className="mt-4 space-y-3">
+                    {stage.tasks.map((task) => (
+                      <div key={task.id} className="flex items-start gap-3 p-3 border rounded-md">
+                        <Checkbox 
+                          id={`task-${task.id}`} 
+                          checked={completedTasks.includes(task.id)}
+                          onCheckedChange={() => toggleTask(task.id)}
+                          className="mt-1"
+                        />
+                        <div>
+                          <label 
+                            htmlFor={`task-${task.id}`} 
+                            className={`font-medium cursor-pointer ${completedTasks.includes(task.id) ? 'line-through text-gray-500' : ''}`}
+                          >
+                            {task.name}
+                          </label>
+                          <p className="text-sm text-gray-500 mt-1">{task.description}</p>
+                          <p className="text-xs text-gray-400 mt-1">Tempo estimado: {task.estimatedHours}h</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </CollapsibleContent>
+                    ))}
+                  </CollapsibleContent>
+                </CardContent>
               </Collapsible>
-            </CardContent>
+            </CardHeader>
           </Card>
         );
       })}
