@@ -63,7 +63,7 @@ const Index = () => {
                 <span>Sua jornada acadêmica simplificada</span>
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-900 dark:text-white mb-6 leading-tight">
-                <span className="text-indigo-600 dark:text-indigo-400">PlanejaTCC</span> para estudantes
+                <span className="text-indigo-600 dark:text-indigo-400">Planner Inteligente</span> para estudantes
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto lg:mx-0">
                 Organize seu TCC ou Monografia com um planejamento inteligente baseado no seu tema, prazo e disponibilidade de tempo.
