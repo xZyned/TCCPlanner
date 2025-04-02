@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
-import { Loader2, Upload, Camera } from "lucide-react";
+import { Loader2, Camera, CreditCard, Shield, Check, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -19,6 +20,7 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [subscription, setSubscription] = useState<string>("Gratuito");
+  const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -41,7 +43,7 @@ const Profile = () => {
           setAvatarUrl(data.avatar_url);
         }
 
-        // Aqui simulamos a informação de assinatura
+        // Simulamos a informação de assinatura
         // Em uma implementação real, você buscaria essa informação de um serviço de pagamento
         setSubscription("Gratuito");
       } catch (error) {
@@ -103,11 +105,12 @@ const Profile = () => {
 
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const filePath = `${user?.id}-${Math.random()}.${fileExt}`;
+      const fileName = `${user?.id}-${Math.random()}.${fileExt}`;
+      const filePath = `${user?.id}/${fileName}`;
 
       setUploadingAvatar(true);
 
-      // Primeiro fazemos o upload da imagem para o storage
+      // Upload da imagem para o storage
       const { error: uploadError } = await supabase.storage
         .from('avatars')
         .upload(filePath, file);
@@ -159,6 +162,15 @@ const Profile = () => {
       .join('')
       .toUpperCase()
       .substring(0, 2);
+  };
+
+  const handleSubscriptionUpgrade = () => {
+    // Lógica para redirecionar para página de pagamento ou iniciar processo de upgrade
+    toast({
+      title: "Em breve!",
+      description: "O sistema de pagamentos será implementado em breve.",
+    });
+    setShowUpgradeDialog(false);
   };
 
   return (
@@ -269,7 +281,7 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                <div className="p-4 border rounded-lg">
+                <div className="p-4 border rounded-lg bg-white dark:bg-gray-800">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="text-lg font-medium">Plano atual</h3>
                     <span className="bg-indigo-100 text-indigo-800 font-medium py-1 px-2 rounded-full text-sm">
@@ -280,11 +292,15 @@ const Profile = () => {
                   <p className="text-gray-500 mb-4">
                     {subscription === "Gratuito" 
                       ? "Você está usando o plano gratuito com recursos limitados." 
-                      : "Você tem acesso a todos os recursos premium."}
+                      : "Você tem acesso a todos os recursos premium do PlanejaTCC."}
                   </p>
                   
                   {subscription === "Gratuito" && (
-                    <Button className="w-full">
+                    <Button 
+                      className="w-full"
+                      onClick={() => setShowUpgradeDialog(true)}
+                    >
+                      <CreditCard className="mr-2 h-4 w-4" />
                       Fazer upgrade para Premium
                     </Button>
                   )}
@@ -302,30 +318,53 @@ const Profile = () => {
                   )}
                 </div>
                 
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Comparação de planos</h3>
-                  <div className="grid gap-4">
-                    <div className="flex items-start">
-                      <div className="mr-3 pt-1 text-green-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Comparação de planos</h3>
+                  
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {/* Plano Gratuito */}
+                    <div className="border rounded-lg p-6 bg-white dark:bg-gray-800">
+                      <div className="flex justify-between items-center mb-4">
+                        <h4 className="text-xl font-medium">Gratuito</h4>
+                        <span className="text-sm text-gray-500">R$ 0</span>
                       </div>
-                      <div>
-                        <p className="font-medium">Gratuito</p>
-                        <p className="text-sm text-gray-500">Acesso limitado a recursos básicos</p>
+                      
+                      <ul className="space-y-3 mb-6">
+                        <PlanFeature included text="Cronograma básico" />
+                        <PlanFeature included text="Checklist de tarefas" />
+                        <PlanFeature included={false} text="Templates personalizados" />
+                        <PlanFeature included={false} text="Sugestões de referências" />
+                        <PlanFeature included={false} text="Exportação para PDF" />
+                      </ul>
+                      
+                      <div className="pt-4 border-t">
+                        <p className="text-sm text-gray-500">Ideal para quem está começando</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-start">
-                      <div className="mr-3 pt-1 text-green-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
+                    {/* Plano Premium */}
+                    <div className="border rounded-lg p-6 bg-indigo-50 border-indigo-200 dark:bg-indigo-900/20 dark:border-indigo-800">
+                      <div className="flex justify-between items-center mb-4">
+                        <div>
+                          <h4 className="text-xl font-medium">Premium</h4>
+                          <span className="inline-flex items-center mt-1 bg-indigo-100 text-indigo-800 text-xs py-0.5 px-2 rounded-full dark:bg-indigo-900 dark:text-indigo-300">
+                            <Shield className="h-3 w-3 mr-1" />
+                            Recomendado
+                          </span>
+                        </div>
+                        <span className="text-sm text-gray-500">R$ 29,90<span className="text-xs">/mês</span></span>
                       </div>
-                      <div>
-                        <p className="font-medium">Premium - R$29,90/mês</p>
-                        <p className="text-sm text-gray-500">Acesso completo a todos os recursos premium</p>
+                      
+                      <ul className="space-y-3 mb-6">
+                        <PlanFeature included text="Cronograma avançado" />
+                        <PlanFeature included text="Checklist detalhado" />
+                        <PlanFeature included text="Templates personalizados" />
+                        <PlanFeature included text="Sugestões de referências" />
+                        <PlanFeature included text="Exportação para PDF" />
+                      </ul>
+                      
+                      <div className="pt-4 border-t">
+                        <p className="text-sm text-gray-500">Ideal para quem quer o melhor resultado</p>
                       </div>
                     </div>
                   </div>
@@ -335,7 +374,48 @@ const Profile = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      {/* Dialog de upgrade */}
+      <Dialog open={showUpgradeDialog} onOpenChange={setShowUpgradeDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Fazer upgrade para Premium</DialogTitle>
+            <DialogDescription>
+              Desbloqueie todos os recursos do PlanejaTCC e garanta o sucesso do seu trabalho acadêmico.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <p className="text-sm text-gray-500">
+              Após o pagamento, sua conta será atualizada automaticamente para o plano Premium.
+            </p>
+            
+            <div className="bg-indigo-50 p-4 rounded-md dark:bg-indigo-900/20">
+              <h4 className="font-medium mb-2">Plano Premium</h4>
+              <p className="text-2xl font-bold mb-1">R$ 29,90<span className="text-sm font-normal">/mês</span></p>
+              <p className="text-sm text-gray-500">Cancele a qualquer momento</p>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowUpgradeDialog(false)}>Cancelar</Button>
+            <Button onClick={handleSubscriptionUpgrade}>Continuar para pagamento</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
+  );
+};
+
+// Componente auxiliar para exibir características do plano
+const PlanFeature = ({ included, text }: { included: boolean; text: string }) => {
+  return (
+    <li className="flex items-start">
+      <span className={`flex-shrink-0 h-5 w-5 rounded-full flex items-center justify-center ${included ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'} mr-2`}>
+        {included ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+      </span>
+      <span className={included ? '' : 'text-gray-400'}>{text}</span>
+    </li>
   );
 };
 

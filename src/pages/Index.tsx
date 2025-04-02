@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { TccPlanner } from "@/components/TccPlanner";
@@ -28,7 +27,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-8">
           <header className="text-center mb-10">
             <h1 className="text-4xl font-bold text-indigo-800 dark:text-indigo-300 mb-2">
-              Planner de TCC / Monografia
+              PlanejaTCC
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-300">
               Organize seu trabalho acadêmico de forma eficiente e nunca perca um prazo
@@ -64,7 +63,7 @@ const Index = () => {
                 <span>Sua jornada acadêmica simplificada</span>
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-indigo-900 dark:text-white mb-6 leading-tight">
-                Planner de <span className="text-indigo-600 dark:text-indigo-400">TCC</span> inteligente para estudantes
+                <span className="text-indigo-600 dark:text-indigo-400">PlanejaTCC</span> para estudantes
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto lg:mx-0">
                 Organize seu TCC ou Monografia com um planejamento inteligente baseado no seu tema, prazo e disponibilidade de tempo.
@@ -124,7 +123,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Como o Planner de TCC vai te ajudar
+              Como o PlanejaTCC vai te ajudar
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               Desenvolvido especialmente para estudantes, nosso planner elimina o estresse do planejamento e te ajuda a concluir seu trabalho no prazo.
@@ -195,7 +194,7 @@ const Index = () => {
                     </TabsList>
                     <TabsContent value="try" className="space-y-4">
                       <div className="text-center p-4">
-                        <h3 className="text-xl font-semibold mb-4">Experimente sem registro</h3>
+                        <h3 className="text-xl font-semibold mb-4">Experimentar sem registro</h3>
                         <p className="text-gray-600 dark:text-gray-400 mb-6">
                           Você pode usar o planner imediatamente, sem criar uma conta. Seus dados ficarão salvos no navegador atual.
                         </p>
@@ -223,7 +222,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <h2 className="text-2xl font-bold text-white">Planner de TCC</h2>
+              <h2 className="text-2xl font-bold text-white">PlanejaTCC</h2>
               <p className="mt-2">Seu trabalho acadêmico, organizado.</p>
             </div>
             <div className="flex flex-col md:flex-row gap-8">
@@ -246,7 +245,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-            © {new Date().getFullYear()} Planner de TCC. Todos os direitos reservados.
+            © {new Date().getFullYear()} PlanejaTCC. Todos os direitos reservados.
           </div>
         </div>
       </footer>
