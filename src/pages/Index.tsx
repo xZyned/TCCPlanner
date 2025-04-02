@@ -5,6 +5,8 @@ import { TccPlanner } from "@/components/TccPlanner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SignupForm } from "@/components/SignupForm";
+import { useAuth } from "@/context/AuthContext";
+import { Link } from "react-router-dom";
 import { 
   BookOpen, 
   CalendarClock, 
@@ -12,11 +14,13 @@ import {
   Clock, 
   ArrowRight, 
   Sparkles, 
-  GraduationCap 
+  GraduationCap, 
+  LogIn
 } from "lucide-react";
 
 const Index = () => {
   const [showPlanner, setShowPlanner] = useState(false);
+  const { user } = useAuth();
   
   if (showPlanner) {
     return (
@@ -74,14 +78,19 @@ const Index = () => {
                   Começar agora
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg"
-                  className="rounded-full px-8"
-                  onClick={() => document.getElementById('features')?.scrollIntoView({behavior: 'smooth'})}
-                >
-                  Saiba mais
-                </Button>
+                {!user && (
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="rounded-full px-8"
+                    asChild
+                  >
+                    <Link to="/auth">
+                      <LogIn className="mr-2 h-5 w-5" />
+                      Entrar / Cadastrar
+                    </Link>
+                  </Button>
+                )}
               </div>
             </div>
             <div className="flex-1 w-full max-w-md">
