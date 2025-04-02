@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { TccPlanner } from "@/components/TccPlanner";
@@ -116,7 +115,7 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Add Teco to the hero section */}
+              {/* Teco no canto da seção hero */}
               <div className="absolute -bottom-10 -right-10 z-10 transform -rotate-6 hidden md:block">
                 <TecoMascot size="lg" />
               </div>
@@ -135,11 +134,6 @@ const Index = () => {
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               Desenvolvido especialmente para estudantes, nosso planner elimina o estresse do planejamento e te ajuda a concluir seu trabalho no prazo.
             </p>
-            
-            {/* Add Teco giving a tip */}
-            <div className="flex justify-center mt-6">
-              <TecoMascot size="md" />
-            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -198,11 +192,6 @@ const Index = () => {
             </div>
             <div>
               <Card className="shadow-lg dark:border-gray-700 relative">
-                {/* Add Teco peeking from the corner of the card */}
-                <div className="absolute -top-8 -left-8 transform -rotate-12 z-10">
-                  <TecoMascot size="md" withTip={false} />
-                </div>
-                
                 <CardContent className="p-6 pt-10">
                   <Tabs defaultValue="try" className="w-full">
                     <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -234,7 +223,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Add fixed Teco mascot that shows tips */}
+      {/* Fixed Teco mascot that shows tips */}
       <TecoMascot position="fixed" size="md" />
 
       {/* Footer */}
