@@ -10,7 +10,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center gap-2">
             <GraduationCap className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-            <span className="text-lg font-bold text-indigo-900 dark:text-white">PlanejaTCC</span>
+            <span className="text-lg font-bold text-indigo-900 dark:text-white">PlanejaTCC - Versão 1.0</span>
           </Link>
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm">
