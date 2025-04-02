@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { TccPlanner } from "@/components/TccPlanner";
@@ -6,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SignupForm } from "@/components/SignupForm";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
+import { TecoMascot } from "@/components/TecoMascot";
 import { 
   BookOpen, 
   CalendarClock, 
@@ -92,7 +94,7 @@ const Index = () => {
                 )}
               </div>
             </div>
-            <div className="flex-1 w-full max-w-md">
+            <div className="flex-1 w-full max-w-md relative">
               <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transform rotate-1 hover:rotate-0 transition-all duration-300">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -113,13 +115,18 @@ const Index = () => {
                   </div>
                 </div>
               </div>
+              
+              {/* Add Teco to the hero section */}
+              <div className="absolute -bottom-10 -right-10 z-10 transform -rotate-6 hidden md:block">
+                <TecoMascot size="lg" />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 px-4 sm:px-6 bg-white dark:bg-gray-900">
+      <section id="features" className="py-16 px-4 sm:px-6 bg-white dark:bg-gray-900 relative">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -128,6 +135,11 @@ const Index = () => {
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               Desenvolvido especialmente para estudantes, nosso planner elimina o estresse do planejamento e te ajuda a concluir seu trabalho no prazo.
             </p>
+            
+            {/* Add Teco giving a tip */}
+            <div className="flex justify-center mt-6">
+              <TecoMascot size="md" />
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -185,8 +197,13 @@ const Index = () => {
               </div>
             </div>
             <div>
-              <Card className="shadow-lg dark:border-gray-700">
-                <CardContent className="p-6">
+              <Card className="shadow-lg dark:border-gray-700 relative">
+                {/* Add Teco peeking from the corner of the card */}
+                <div className="absolute -top-8 -left-8 transform -rotate-12 z-10">
+                  <TecoMascot size="md" withTip={false} />
+                </div>
+                
+                <CardContent className="p-6 pt-10">
                   <Tabs defaultValue="try" className="w-full">
                     <TabsList className="grid w-full grid-cols-2 mb-6">
                       <TabsTrigger value="try">Experimentar</TabsTrigger>
@@ -216,6 +233,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Add fixed Teco mascot that shows tips */}
+      <TecoMascot position="fixed" size="md" />
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12 px-4">

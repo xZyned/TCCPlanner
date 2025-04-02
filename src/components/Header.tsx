@@ -2,6 +2,7 @@
 import { AuthButton } from "./AuthButton";
 import { Link } from "react-router-dom";
 import { GraduationCap } from "lucide-react";
+import { TecoMascot } from "./TecoMascot";
 
 export function Header() {
   return (
@@ -11,6 +12,9 @@ export function Header() {
           <Link to="/" className="flex items-center gap-2">
             <GraduationCap className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
             <span className="text-lg font-bold text-indigo-900 dark:text-white">PlanejaTCC</span>
+            <div className="hidden sm:block -ml-1">
+              <TecoMascot size="sm" withTip={false} />
+            </div>
           </Link>
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm">
