@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { TccPlanner } from "@/components/TccPlanner";
@@ -115,9 +116,9 @@ const Index = () => {
                 </div>
               </div>
               
-              {/* Teco no canto da seção hero */}
-              <div className="absolute -bottom-10 -right-10 z-10 transform -rotate-6 hidden md:block">
-                <TecoMascot size="lg" />
+              {/* Teco with 3D effect */}
+              <div className="absolute -bottom-10 -right-10 z-10 hidden md:block">
+                <TecoMascot size="lg" rotation={-15} />
               </div>
             </div>
           </div>
@@ -224,7 +225,7 @@ const Index = () => {
       </section>
 
       {/* Fixed Teco mascot that shows tips */}
-      <TecoMascot position="fixed" size="md" />
+      <TecoMascot position="fixed" size="md" rotation={5} />
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12 px-4">

@@ -4,12 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface TecoMascotProps {
-  position?: "floating" | "fixed";
+  position?: "static" | "fixed";
   size?: "sm" | "md" | "lg";
   withTip?: boolean;
+  rotation?: number;
 }
 
-export function TecoMascot({ position = "floating", size = "md", withTip = true }: TecoMascotProps) {
+export function TecoMascot({ 
+  position = "static", 
+  size = "md", 
+  withTip = true,
+  rotation = 0
+}: TecoMascotProps) {
   const [showMessage, setShowMessage] = useState(false);
   
   const tips = [
@@ -29,18 +35,35 @@ export function TecoMascot({ position = "floating", size = "md", withTip = true 
   };
   
   const positionClasses = {
-    floating: "relative animate-bounce",
-    fixed: "fixed bottom-4 right-4 z-50 hover:scale-110 transition-all duration-300"
+    static: "relative",
+    fixed: "fixed bottom-4 right-4 z-50 cursor-pointer hover:scale-105 transition-all duration-300"
   };
   
+  // 3D effect styles with shadow and transform
+  const threeDEffect = "drop-shadow-lg transition-all duration-300 hover:drop-shadow-xl";
+  
   return (
-    <div className={`${positionClasses[position]} ${position === "fixed" ? "cursor-pointer" : ""}`}>
+    <div className={`${positionClasses[position]}`}>
       <TooltipProvider>
         <Tooltip open={showMessage} onOpenChange={setShowMessage}>
           <TooltipTrigger asChild>
             <div 
-              className={`${sizeClasses[size]}`}
+              className={`${sizeClasses[size]} ${threeDEffect}`}
               onClick={() => position === "fixed" && setShowMessage(!showMessage)}
+              style={{ 
+                transform: `perspective(800px) rotateY(${rotation}deg) rotateX(10deg)`,
+                transition: 'transform 0.5s ease-in-out'
+              }}
+              onMouseEnter={(e) => {
+                if (position === "static") {
+                  e.currentTarget.style.transform = `perspective(800px) rotateY(${rotation + 10}deg) rotateX(5deg) scale(1.05)`;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (position === "static") {
+                  e.currentTarget.style.transform = `perspective(800px) rotateY(${rotation}deg) rotateX(10deg)`;
+                }
+              }}
             >
               <img 
                 src="/lovable-uploads/769a9b30-86c6-494f-a030-ab94442eedf6.png" 

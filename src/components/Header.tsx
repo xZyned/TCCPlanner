@@ -13,7 +13,7 @@ export function Header() {
             <GraduationCap className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
             <span className="text-lg font-bold text-indigo-900 dark:text-white">PlanejaTCC</span>
             <div className="hidden sm:block -ml-1">
-              <TecoMascot size="sm" withTip={false} />
+              <TecoMascot size="sm" withTip={false} rotation={10} />
             </div>
           </Link>
         </div>
